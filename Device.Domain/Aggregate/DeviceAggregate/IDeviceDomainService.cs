@@ -99,13 +99,5 @@
         /// <param name="logs">设备日志枚举</param>
         /// <returns></returns>
         Task AddDeviceLogsAsync(string deviceCode, IEnumerable<DeviceLog> logs);
-
-        /// <summary>
-        /// 异步更新软件更新任务进度
-        /// </summary>
-        /// <param name="deviceCode">设备代码</param>
-        /// <param name="softwareUpdateTaskProgress">软件更新任务进度</param>
-        /// <returns></returns>
-        Task UpdateSoftwareUpdateTaskProgressAsync(string deviceCode, SoftwareUpdateTaskProgress softwareUpdateTaskProgress);
     }
 }

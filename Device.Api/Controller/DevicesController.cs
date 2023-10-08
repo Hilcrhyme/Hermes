@@ -22,6 +22,11 @@ namespace Hermes.Service.Device.Api.Controller
         private readonly IDeviceQuery deviceQuery;
 
         /// <summary>
+        /// 更新计划查询
+        /// </summary>
+        private readonly IUpdatePlanQuery updatePlanQuery;
+
+        /// <summary>
         /// 消息中介器
         /// </summary>
         private readonly IMediator mediator;
@@ -30,10 +35,12 @@ namespace Hermes.Service.Device.Api.Controller
         /// 实例化设备管理器
         /// </summary>
         /// <param name="deviceQuery">设备查询</param>
+        /// <param name="updatePlanQuery">更新计划查询</param>
         /// <param name="mediator">消息中介器</param>
-        public DevicesController(IDeviceQuery deviceQuery, IMediator mediator)
+        public DevicesController(IDeviceQuery deviceQuery, IUpdatePlanQuery updatePlanQuery, IMediator mediator)
         {
             this.deviceQuery = deviceQuery;
+            this.updatePlanQuery = updatePlanQuery;
             this.mediator = mediator;
         }
 
@@ -61,14 +68,17 @@ namespace Hermes.Service.Device.Api.Controller
         }
 
         /// <summary>
-        /// 异步获取软件更新任务枚举
+        /// 异步查询更新任务
         /// </summary>
         /// <param name="deviceId">设备 Id</param>
         /// <returns></returns>
-        [HttpGet("{deviceId:long}/software-update-tasks")]
-        public async Task<ActionResult<QueryResult<SoftwareUpdateTask>>> GetSoftwareUpdateTask([FromRoute] long deviceId)
+        [HttpGet("{deviceId:long}/update-tasks")]
+        public async Task<ActionResult<QueryResult<UpdateTask>>> QueryUpdateTasksAsync([FromRoute] long deviceId)
         {
-            return await deviceQuery.GetSoftwareUpdateTasksAsync(deviceId);
+            return await updatePlanQuery.QueryUpdateTasksAsync(new UpdateTaskQueryCommand()
+            {
+                DeviceId = deviceId
+            });
         }
 
         /// <summary>

@@ -8,6 +8,7 @@ using Hermes.Service.Device.Api.Application.Command;
 using Hermes.Service.Device.Api.Application.Command.DeviceCommand;
 using Hermes.Service.Device.Api.Application.DataTransferObject;
 using Hermes.Service.Device.Domain.Aggregate.DeviceAggregate;
+using Hermes.Service.Device.Domain.Aggregate.UpdatePlanAggregate;
 
 namespace Hermes.Service.Device.Api.Application.Query
 {
@@ -210,35 +211,10 @@ namespace Hermes.Service.Device.Api.Application.Query
         /// </summary>
         /// <param name="softwareUpdateTaskId">软件更新任务 Id</param>
         /// <returns></returns>
-        public async Task<DataTransferObject.SoftwareUpdateTask?> GetSoftwareUpdateTaskAsync(long softwareUpdateTaskId)
+        public async Task<DataTransferObject.UpdateTask?> GetSoftwareUpdateTaskAsync(long softwareUpdateTaskId)
         {
             var task = await deviceRepository.GetSoftwareUpdateTaskAsync(softwareUpdateTaskId);
-            return mapper.Map<DataTransferObject.SoftwareUpdateTask>(task);
-        }
-
-        public async Task<QueryResult<DataTransferObject.SoftwareUpdateTask>> GetSoftwareUpdateTasksAsync(SoftwareUpdateTaskQueryCommand softwareUpdateTaskQueryCommand)
-        {
-            Expression<Func<Domain.Aggregate.DeviceAggregate.SoftwareUpdateTask, bool>> filterExpression = p => true;
-            if (softwareUpdateTaskQueryCommand.SoftwareUpdateTaskId is not null)
-            {
-                filterExpression = filterExpression.And(softwareUpdateTask => softwareUpdateTask.Id == softwareUpdateTaskQueryCommand.SoftwareUpdateTaskId);
-            }
-            if (softwareUpdateTaskQueryCommand.SoftwareUpdateTaskName is not null)
-            {
-                filterExpression = filterExpression.And(softwareUpdateTask => softwareUpdateTask.Name.Contains(softwareUpdateTaskQueryCommand.SoftwareUpdateTaskName));
-            }
-            var queryOptions = new QueryOptions<Domain.Aggregate.DeviceAggregate.SoftwareUpdateTask>()
-            {
-                Filter = filterExpression
-            };
-            var result = await deviceRepository.QueryDeviceLogsAsync(deviceId, queryOptions);
-            return new QueryResult<DataTransferObject.DeviceLog>()
-            {
-                TotalCount = result.TotalCount,
-                PageNumber = result.PageNumber,
-                PageSize = result.PageSize,
-                Items = result.Items.Select(mapper.Map<DataTransferObject.SoftwareUpdateTask>)
-            };
+            return mapper.Map<DataTransferObject.UpdateTask>(task);
         }
 
         public Task<QueryResult<DataTransferObject.DeviceControlTask>> GetDeviceControlTasksAsync(long deviceId)

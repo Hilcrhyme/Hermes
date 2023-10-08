@@ -1,14 +1,14 @@
 ﻿using Hermes.Common.SeedWork;
 
-namespace Hermes.Service.Device.Domain.Aggregate.UpdateTaskAggregate
+namespace Hermes.Service.Device.Domain.Aggregate.UpdatePlanAggregate
 {
     /// <summary>
-    /// 更新子任务进度
+    /// 更新任务进度
     /// </summary>
-    public class SubUpdateTaskProgress : ValueObject
+    public class UpdateTaskProgress : ValueObject
     {
         /// <summary>
-        /// 更新子任务 Id
+        /// 更新任务 Id
         /// </summary>
         public long SubUpdateTaskId { get; init; } = 0;
 
@@ -28,7 +28,7 @@ namespace Hermes.Service.Device.Domain.Aggregate.UpdateTaskAggregate
         public DateTime SynchronizedTime { get; init; } = DateTime.MinValue;
 
         /// <summary>
-        /// 获取更新子任务进度的相等组件枚举
+        /// 获取更新任务进度的相等组件枚举
         /// </summary>
         /// <returns></returns>
         protected override IEnumerable<object> GetEqualityComponents()

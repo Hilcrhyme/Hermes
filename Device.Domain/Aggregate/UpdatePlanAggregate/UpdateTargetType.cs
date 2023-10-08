@@ -1,4 +1,4 @@
-﻿namespace Hermes.Service.Device.Domain.Aggregate.UpdateTaskAggregate
+﻿namespace Hermes.Service.Device.Domain.Aggregate.UpdatePlanAggregate
 {
     /// <summary>
     /// 更新目标类型

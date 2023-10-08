@@ -1,14 +1,14 @@
 ﻿using Hermes.Common.SeedWork;
 
-namespace Hermes.Service.Device.Domain.Aggregate.UpdateTaskAggregate
+namespace Hermes.Service.Device.Domain.Aggregate.UpdatePlanAggregate
 {
     /// <summary>
-    /// 更新任务
+    /// 更新计划
     /// </summary>
-    public class UpdateTask : Entity, IAggregateRoot
+    public class UpdatePlan : Entity, IAggregateRoot
     {
         /// <summary>
-        /// 更新任务名称
+        /// 更新计划名称
         /// </summary>
         public string Name { get; private set; } = string.Empty;
 
@@ -38,8 +38,8 @@ namespace Hermes.Service.Device.Domain.Aggregate.UpdateTaskAggregate
         public long UpdatePackageId { get; private set; } = 0;
 
         /// <summary>
-        /// 更新子任务枚举
+        /// 更新任务枚举
         /// </summary>
-        public virtual IEnumerable<SubUpdateTask> SubUpdateTasks { get; private set; } = Enumerable.Empty<SubUpdateTask>();
+        public virtual IEnumerable<UpdateTask> SubUpdateTasks { get; private set; } = Enumerable.Empty<UpdateTask>();
     }
 }

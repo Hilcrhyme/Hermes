@@ -1,5 +1,6 @@
 ﻿using Hermes.Service.Device.Api.Application.Query;
 using Hermes.Service.Device.Domain.Aggregate.DeviceAggregate;
+using Hermes.Service.Device.Domain.Aggregate.UpdatePlanAggregate;
 
 namespace Hermes.Service.Device.Api.Application.Command.DeviceCommand
 {
@@ -14,9 +15,9 @@ namespace Hermes.Service.Device.Api.Application.Command.DeviceCommand
         private readonly IDeviceQuery deviceQuery;
 
         /// <summary>
-        /// 设备领域服务
+        /// 更新任务领域服务
         /// </summary>
-        private readonly IDeviceDomainService deviceDomainService;
+        private readonly IUpdateTaskDomainService updateTaskDomainService;
 
         /// <summary>
         /// 日志器
@@ -27,12 +28,12 @@ namespace Hermes.Service.Device.Api.Application.Command.DeviceCommand
         /// 实例化设备同步更新子任务进度命令处理器
         /// </summary>
         /// <param name="deviceQuery">设备查询</param>
-        /// <param name="deviceDomainService">设备领域服务</param>
+        /// <param name="updateTaskDomainService">更新任务领域服务</param>
         /// <param name="logger">日志器</param>
-        public DeviceSynchronizeSubUpdateTaskProgressCommandHandler(IDeviceQuery deviceQuery, IDeviceDomainService deviceDomainService, ILogger<DeviceSynchronizeSubUpdateTaskProgressCommandHandler> logger)
+        public DeviceSynchronizeSubUpdateTaskProgressCommandHandler(IDeviceQuery deviceQuery, IUpdateTaskDomainService updateTaskDomainService, ILogger<DeviceSynchronizeSubUpdateTaskProgressCommandHandler> logger)
         {
             this.deviceQuery = deviceQuery;
-            this.deviceDomainService = deviceDomainService;
+            this.updateTaskDomainService = updateTaskDomainService;
             this.logger = logger;
         }
 
@@ -46,19 +47,7 @@ namespace Hermes.Service.Device.Api.Application.Command.DeviceCommand
         {
             try
             {
-                var task = await deviceQuery.GetSoftwareUpdateTaskAsync(request.Data.SubUpdateTaskId);
-                if (task is null)
-                {
-                    logger.LogError();
-                    return;
-                }
-                await deviceDomainService.UpdateSoftwareUpdateTaskProgressAsync(request.DeviceCode, new Domain.Aggregate.DeviceAggregate.SoftwareUpdateTaskProgress()
-                {
-                    SoftwareUpdateTaskId = task.Value.Id,
-                    Value = request.Data.Value,
-                    Message = request.Data.Message,
-                    SynchronizedTime = DateTimeOffset.FromUnixTimeMilliseconds(request.Timestamp).DateTime
-                });
+                await updateTaskDomainService.SynchronizeUpdateProgressAsync(request.Data.SubUpdateTaskId, request.Data.Value, request.Data.Message, DateTimeOffset.FromUnixTimeMilliseconds(request.Timestamp).DateTime);
             }
             catch (Exception ex)
             {

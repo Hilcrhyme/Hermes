@@ -1,9 +1,9 @@
-﻿namespace Hermes.Service.Device.Domain.Aggregate.UpdateTaskAggregate
+﻿namespace Hermes.Service.Device.Domain.Aggregate.UpdatePlanAggregate
 {
     /// <summary>
-    /// 更新子任务状态
+    /// 更新任务状态
     /// </summary>
-    public enum SubUpdateTaskState
+    public enum UpdateTaskState
     {
         /// <summary>
         /// 未知

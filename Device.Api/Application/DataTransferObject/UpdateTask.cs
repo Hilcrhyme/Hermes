@@ -3,7 +3,7 @@
     /// <summary>
     /// 软件更新任务
     /// </summary>
-    public readonly record struct SoftwareUpdateTask
+    public readonly record struct UpdateTask
     {
         /// <summary>
         /// 任务 Id
@@ -28,7 +28,7 @@
         /// <summary>
         /// 更新支持的版本集合
         /// </summary>
-        public IEnumerable<string> SupportedSoftwareVersions { get; init; } 
+        public IEnumerable<string> SupportedSoftwareVersions { get; init; }
 
         /// <summary>
         /// 更新包名称

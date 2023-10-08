@@ -34,20 +34,6 @@ namespace Hermes.Service.Device.Api.Application.Query
         Task<QueryResult<DataTransferObject.DeviceLog>> QueryDeviceLogsAsync(long deviceId, DeviceLogQueryCommand deviceLogQueryCommand);
 
         /// <summary>
-        /// 异步根据设备代码获取软件更新任务枚举
-        /// </summary>
-        /// <param name="softwareUpdateTaskQueryCommand">软件更新任务查询命令</param>
-        /// <returns></returns>
-        Task<QueryResult<SoftwareUpdateTask>> GetSoftwareUpdateTasksAsync(SoftwareUpdateTaskQueryCommand softwareUpdateTaskQueryCommand);
-
-        /// <summary>
-        /// 异步获取软件更新任务
-        /// </summary>
-        /// <param name="softwareUpdateTaskId">软件更新任务 Id</param>
-        /// <returns></returns>
-        Task<SoftwareUpdateTask?> GetSoftwareUpdateTaskAsync(long softwareUpdateTaskId);
-
-        /// <summary>
         /// 异步查询设备控制任务
         /// </summary>
         /// <param name="deviceId">设备 Id</param>

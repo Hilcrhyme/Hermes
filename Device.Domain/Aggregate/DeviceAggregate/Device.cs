@@ -1,4 +1,5 @@
 ﻿using Hermes.Common.SeedWork;
+using Hermes.Service.Device.Domain.Aggregate.UpdatePlanAggregate;
 
 namespace Hermes.Service.Device.Domain.Aggregate.DeviceAggregate
 {
@@ -78,14 +79,14 @@ namespace Hermes.Service.Device.Domain.Aggregate.DeviceAggregate
         public virtual ICollection<Software> Softwares { get; set; } = Array.Empty<Software>();
 
         /// <summary>
-        /// 软件更新任务集合
-        /// </summary>
-        public virtual ICollection<SoftwareUpdateTask> SoftwareUpdateTasks { get; set; } = Array.Empty<SoftwareUpdateTask>();
-
-        /// <summary>
         /// 硬件版本
         /// </summary>
         public string HardwareVersion { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 更新任务枚举
+        /// </summary>
+        public IEnumerable<long> UpdateTasks { get; set; } = Enumerable.Empty<long>();
 
         /// <summary>
         /// 数据字典
