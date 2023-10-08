@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Hermes.Common.SeedWork
+﻿namespace Hermes.Common.SeedWork
 {
     /// <summary>
     /// 仓储接口
@@ -37,10 +35,10 @@ namespace Hermes.Common.SeedWork
         public Task<T?> GetAsync(long id);
 
         /// <summary>
-        /// 异步获取查询结果
+        /// 异步查询
         /// </summary>
-        /// <param name="expression">表达式</param>
+        /// <param name="options">查询选项</param>
         /// <returns></returns>
-        public Task<QueryResult<T>> GetAsync(Expression<Func<T, bool>> expression);
+        public Task<QueryResult<T>> QueryAsync(QueryOptions<T> options);
     }
 }

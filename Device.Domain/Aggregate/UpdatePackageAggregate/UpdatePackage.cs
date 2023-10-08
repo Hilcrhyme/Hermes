@@ -13,6 +13,11 @@ namespace Hermes.Service.Device.Domain.Aggregate.UpdatePackageAggregate
         public string Name { get; private set; } = string.Empty;
 
         /// <summary>
+        /// 更新包版本
+        /// </summary>
+        public string Version { get; private set; } = string.Empty;
+
+        /// <summary>
         /// 更新包路径
         /// </summary>
         public string Path { get; private set; } = string.Empty;

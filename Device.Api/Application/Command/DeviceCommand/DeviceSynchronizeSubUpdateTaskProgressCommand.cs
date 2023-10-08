@@ -3,12 +3,12 @@
 namespace Hermes.Service.Device.Api.Application.Command.DeviceCommand
 {
     /// <summary>
-    /// 设备同步软件更新任务进度命令
+    /// 设备同步更新子任务进度命令
     /// </summary>
-    public class DeviceSynchronizeSoftwareUpdateTaskProgressCommand : CommunicationCommand<SoftwareUpdateTaskProgress>
+    public class DeviceSynchronizeSubUpdateTaskProgressCommand : CommunicationCommand<SubUpdateTaskProgress>
     {
         /// <summary>
-        /// 实例化设备同步软件更新任务进度命令
+        /// 实例化设备同步更新子任务进度命令
         /// </summary>
         /// <param name="deviceCode">设备代码</param>
         /// <param name="data">软件更新任务进度</param>
@@ -16,22 +16,22 @@ namespace Hermes.Service.Device.Api.Application.Command.DeviceCommand
         /// 时间戳
         /// <para>单位为毫秒</para>
         /// </param>
-        public DeviceSynchronizeSoftwareUpdateTaskProgressCommand(string deviceCode, SoftwareUpdateTaskProgress data, long timestamp) : base(deviceCode, data, timestamp)
+        public DeviceSynchronizeSubUpdateTaskProgressCommand(string deviceCode, SubUpdateTaskProgress data, long timestamp) : base(deviceCode, data, timestamp)
         {
-            Type = DeviceSynchronizeSoftwareUpdateTaskProgressCommandType;
+            Type = DeviceSynchronizeSubUpdateTaskProgressCommandType;
         }
     }
 
     /// <summary>
-    /// 软件更新任务进度
+    /// 更新子任务进度
     /// </summary>
-    public record class SoftwareUpdateTaskProgress
+    public record class SubUpdateTaskProgress
     {
         /// <summary>
-        /// 更新任务 Id
+        /// 更新子任务 Id
         /// </summary>
         [JsonPropertyName("tid")]
-        public string TaskId { get; init; } = string.Empty;
+        public long SubUpdateTaskId { get; init; } = 0;
 
         /// <summary>
         /// 进度值

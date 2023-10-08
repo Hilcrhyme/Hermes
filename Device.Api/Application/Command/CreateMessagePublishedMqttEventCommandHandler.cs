@@ -133,7 +133,7 @@ namespace Hermes.Service.Device.Api.Application.Command
                     break;
 
                 case "software-update-progress":
-                    await mediator.Publish(new DeviceSynchronizeSoftwareUpdateTaskProgressCommand(deviceCodeJsonElement.GetString()!, dataJsonElement.Deserialize<SoftwareUpdateTaskProgress>()!, timestamp), cancellationToken);
+                    await mediator.Publish(new DeviceSynchronizeSubUpdateTaskProgressCommand(deviceCodeJsonElement.GetString()!, dataJsonElement.Deserialize<SubUpdateTaskProgress>()!, timestamp), cancellationToken);
                     break;
 
                 default:

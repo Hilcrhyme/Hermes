@@ -12,7 +12,7 @@ namespace Hermes.Service.Device.Api.Controller
     /// <summary>
     /// 设备管理器
     /// </summary>
-    [Route("api/query/[controller]")]
+    [Route("api/query/device")]
     [ApiController]
     public class DevicesController : ControllerBase
     {
@@ -40,25 +40,24 @@ namespace Hermes.Service.Device.Api.Controller
         /// <summary>
         /// 异步查询设备
         /// </summary>
-        /// <param name="deviceQueryCondition">设备查询条件</param>
+        /// <param name="deviceQueryCommand">设备查询命令</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<QueryResult<Application.DataTransferObject.Device>>> QueryDevicesAsync([FromQuery] DeviceQueryCondition deviceQueryCondition)
+        public async Task<ActionResult<QueryResult<Application.DataTransferObject.Device>>> QueryDevicesAsync([FromQuery] DeviceQueryCommand deviceQueryCommand)
         {
-            return await deviceQuery.QueryDevicesAsync(deviceQueryCondition);
+            return await deviceQuery.QueryDevicesAsync(deviceQueryCommand);
         }
 
         /// <summary>
         /// 异步获取设备日志枚举
         /// </summary>
         /// <param name="deviceId">设备 Id</param>
-        /// <param name="startTime"></param>
-        /// <param name="endTime"></param>
+        /// <param name="deviceLogQueryCommand">设备日志查询命令</param>
         /// <returns></returns>
         [HttpGet("{deviceId:long}/logs")]
-        public async Task<ActionResult<QueryResult<DeviceLog>>> GetDeviceLogsAsync([FromRoute] long deviceId, [FromQuery] DateTime startTime, [FromQuery] DateTime endTime)
+        public async Task<ActionResult<QueryResult<DeviceLog>>> GetDeviceLogsAsync([FromRoute] long deviceId, [FromQuery] DeviceLogQueryCommand deviceLogQueryCommand)
         {
-            return await deviceQuery.QueryDeviceLogsAsync(deviceId, startTime, endTime);
+            return await deviceQuery.QueryDeviceLogsAsync(deviceId, deviceLogQueryCommand);
         }
 
         /// <summary>

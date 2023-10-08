@@ -1,4 +1,5 @@
 ﻿using Hermes.Common.SeedWork;
+using Hermes.Service.Device.Api.Application.Command;
 using Hermes.Service.Device.Api.Application.Command.DeviceCommand;
 using Hermes.Service.Device.Api.Application.DataTransferObject;
 
@@ -12,9 +13,9 @@ namespace Hermes.Service.Device.Api.Application.Query
         /// <summary>
         /// 异步查询设备
         /// </summary>
-        /// <param name="deviceQueryCondition">设备查询条件</param>
+        /// <param name="deviceQueryCommand">设备查询命令</param>
         /// <returns></returns>
-        Task<QueryResult<DataTransferObject.Device>> QueryDevicesAsync(DeviceQueryCondition deviceQueryCondition);
+        Task<QueryResult<DataTransferObject.Device>> QueryDevicesAsync(DeviceQueryCommand deviceQueryCommand);
 
         /// <summary>
         /// 异步根据设备代码获取数据字典
@@ -28,24 +29,23 @@ namespace Hermes.Service.Device.Api.Application.Query
         /// 异步查询设备日志
         /// </summary>
         /// <param name="deviceId">设备 Id</param>
-        /// <param name="startTime">查询的开始时间</param>
-        /// <param name="endTime">查询的结束时间</param>
+        /// <param name="deviceLogQueryCommand">设备日志查询命令</param>
         /// <returns></returns>
-        Task<QueryResult<DataTransferObject.DeviceLog>> QueryDeviceLogsAsync(long deviceId, DateTime? startTime, DateTime? endTime);
+        Task<QueryResult<DataTransferObject.DeviceLog>> QueryDeviceLogsAsync(long deviceId, DeviceLogQueryCommand deviceLogQueryCommand);
 
         /// <summary>
         /// 异步根据设备代码获取软件更新任务枚举
         /// </summary>
-        /// <param name="deviceId">设备 Id</param>
+        /// <param name="softwareUpdateTaskQueryCommand">软件更新任务查询命令</param>
         /// <returns></returns>
-        Task<QueryResult<SoftwareUpdateTask>> GetSoftwareUpdateTasksAsync(long deviceId);
+        Task<QueryResult<SoftwareUpdateTask>> GetSoftwareUpdateTasksAsync(SoftwareUpdateTaskQueryCommand softwareUpdateTaskQueryCommand);
 
         /// <summary>
-        /// 异步根据任务 Id 获取软件更新任务
+        /// 异步获取软件更新任务
         /// </summary>
         /// <param name="softwareUpdateTaskId">软件更新任务 Id</param>
         /// <returns></returns>
-        Task<SoftwareUpdateTask?> GetSoftwareUpdateTaskByTaskIdAsync(long softwareUpdateTaskId);
+        Task<SoftwareUpdateTask?> GetSoftwareUpdateTaskAsync(long softwareUpdateTaskId);
 
         /// <summary>
         /// 异步查询设备控制任务

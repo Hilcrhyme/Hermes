@@ -1,5 +1,7 @@
-﻿using Hermes.Service.Device.Api.Application.Command;
+﻿using Hermes.Common.SeedWork;
+using Hermes.Service.Device.Api.Application.Command;
 using Hermes.Service.Device.Api.Application.DataTransferObject;
+using Hermes.Service.Device.Api.Application.Query;
 
 using MediatR;
 
@@ -20,12 +22,19 @@ namespace Hermes.Service.Device.Api.Controller
         private readonly IMediator mediator;
 
         /// <summary>
+        /// 更新包查询
+        /// </summary>
+        private readonly IUpdatePackageQuery updatePackageQuery;
+
+        /// <summary>
         /// 消息中介器
         /// </summary>
-        /// <param name="mediator"></param>
-        public UpdatePackagesController(IMediator mediator)
+        /// <param name="mediator">消息中介器</param>
+        /// <param name="updatePackageQuery">更新包查询</param>
+        public UpdatePackagesController(IMediator mediator, IUpdatePackageQuery updatePackageQuery)
         {
             this.mediator = mediator;
+            this.updatePackageQuery = updatePackageQuery;
         }
 
         /// <summary>
@@ -36,19 +45,34 @@ namespace Hermes.Service.Device.Api.Controller
         [HttpPost("update-packages")]
         public async Task<ActionResult<Response>> UploadUpdatePackageAsync([FromForm] IFormFile file)
         {
-            var directory = Path.Combine(AppContext.BaseDirectory, "update-packages");
-            if (!Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
-            }
-            var fileName = $"{Guid.NewGuid()}_{Path.GetExtension(file.FileName)}";
-            var filePath = Path.Combine(directory, fileName);
-            using var stream = new FileStream(filePath, FileMode.Create);
-            await file.CopyToAsync(stream);
-
             return await mediator.Send(new UploadUpdatePackageCommand()
             {
                 File = file
+            });
+        }
+
+        /// <summary>
+        /// 异步查询更新包枚举
+        /// </summary>
+        /// <param name="updatePackageQueryCommand">更新包查询命令</param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<QueryResult<UpdatePackage>> QueryUpdatePackagesAsync([FromForm] UpdatePackageQueryCommand updatePackageQueryCommand)
+        {
+            return await updatePackageQuery.QueryUpdatePackagesAsync(updatePackageQueryCommand);
+        }
+
+        /// <summary>
+        /// 异步删除更新包
+        /// </summary>
+        /// <param name="updatePackageId">更新包 Id</param>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<Response> DeleteUpdatePackageAsync([FromQuery] long updatePackageId)
+        {
+            return await mediator.Send(new DeleteUpdatePackageCommand()
+            {
+                UpdatePackageId = updatePackageId
             });
         }
     }

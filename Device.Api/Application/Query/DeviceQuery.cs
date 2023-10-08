@@ -1,8 +1,12 @@
 ﻿using System.Linq.Expressions;
 
+using AutoMapper;
+
 using Hermes.Common.Extension;
 using Hermes.Common.SeedWork;
+using Hermes.Service.Device.Api.Application.Command;
 using Hermes.Service.Device.Api.Application.Command.DeviceCommand;
+using Hermes.Service.Device.Api.Application.DataTransferObject;
 using Hermes.Service.Device.Domain.Aggregate.DeviceAggregate;
 
 namespace Hermes.Service.Device.Api.Application.Query
@@ -18,6 +22,11 @@ namespace Hermes.Service.Device.Api.Application.Query
         private readonly IDeviceRepository deviceRepository;
 
         /// <summary>
+        /// 映射器
+        /// </summary>
+        private readonly IMapper mapper;
+
+        /// <summary>
         /// 日志器
         /// </summary>
         private readonly ILogger<DeviceQuery> logger;
@@ -26,10 +35,12 @@ namespace Hermes.Service.Device.Api.Application.Query
         /// 实例化设备查询
         /// </summary>
         /// <param name="deviceRepository">设备仓储</param>
+        /// <param name="mapper">映射器</param>
         /// <param name="logger">日志器</param>
-        public DeviceQuery(IDeviceRepository deviceRepository, ILogger<DeviceQuery> logger)
+        public DeviceQuery(IDeviceRepository deviceRepository, IMapper mapper, ILogger<DeviceQuery> logger)
         {
             this.deviceRepository = deviceRepository;
+            this.mapper = mapper;
             this.logger = logger;
         }
 
@@ -65,80 +76,91 @@ namespace Hermes.Service.Device.Api.Application.Query
         /// <summary>
         /// 异步查询设备
         /// </summary>
-        /// <param name="deviceQueryCondition">设备查询条件</param>
+        /// <param name="deviceQueryCommand">设备查询命令</param>
         /// <returns></returns>
-        public async Task<QueryResult<Domain.Aggregate.DeviceAggregate.Device>> QueryDevicesAsync(DeviceQueryCondition deviceQueryCondition)
+        public async Task<QueryResult<DataTransferObject.Device>> QueryDevicesAsync(DeviceQueryCommand deviceQueryCommand)
         {
             Expression<Func<Domain.Aggregate.DeviceAggregate.Device, bool>> filterExpression = p => true;
-            if (deviceQueryCondition.Id is not null)
+            if (deviceQueryCommand.Id is not null)
             {
-                filterExpression = filterExpression.And(device => device.Id == deviceQueryCondition.Id);
+                filterExpression = filterExpression.And(device => device.Id == deviceQueryCommand.Id);
             }
-            if (deviceQueryCondition.Code is not null)
+            if (deviceQueryCommand.Code is not null)
             {
-                filterExpression = filterExpression.And(device => device.Code.Contains(deviceQueryCondition.Code));
+                filterExpression = filterExpression.And(device => device.Code.Contains(deviceQueryCommand.Code));
             }
-            if (deviceQueryCondition.Name is not null)
+            if (deviceQueryCommand.Name is not null)
             {
-                filterExpression = filterExpression.And(device => device.Name.Contains(deviceQueryCondition.Name));
+                filterExpression = filterExpression.And(device => device.Name.Contains(deviceQueryCommand.Name));
             }
-            if (deviceQueryCondition.Type is not null)
+            if (deviceQueryCommand.Type is not null)
             {
-                filterExpression = filterExpression.And(device => device.Type == deviceQueryCondition.Type);
+                filterExpression = filterExpression.And(device => device.Type == deviceQueryCommand.Type);
             }
-            if (deviceQueryCondition.State is not null)
+            if (deviceQueryCommand.State is not null)
             {
-                filterExpression = filterExpression.And(device => device.State == deviceQueryCondition.State);
+                filterExpression = filterExpression.And(device => device.State == deviceQueryCommand.State);
             }
-            if (deviceQueryCondition.EnvironmentId is not null)
+            if (deviceQueryCommand.EnvironmentId is not null)
             {
-                filterExpression = filterExpression.And(device => device.EnvironmentId == deviceQueryCondition.EnvironmentId);
+                filterExpression = filterExpression.And(device => device.EnvironmentId == deviceQueryCommand.EnvironmentId);
             }
-            if (deviceQueryCondition.BusinessId is not null)
+            if (deviceQueryCommand.BusinessId is not null)
             {
-                filterExpression = filterExpression.And(device => device.BusinessId == deviceQueryCondition.BusinessId);
+                filterExpression = filterExpression.And(device => device.BusinessId == deviceQueryCommand.BusinessId);
             }
-            if (deviceQueryCondition.SupplierId is not null)
+            if (deviceQueryCommand.SupplierId is not null)
             {
-                filterExpression = filterExpression.And(device => device.SupplierId == deviceQueryCondition.SupplierId);
+                filterExpression = filterExpression.And(device => device.SupplierId == deviceQueryCommand.SupplierId);
             }
-            if (deviceQueryCondition.BatchId is not null)
+            if (deviceQueryCommand.BatchId is not null)
             {
-                filterExpression = filterExpression.And(device => device.BatchId == deviceQueryCondition.BatchId);
+                filterExpression = filterExpression.And(device => device.BatchId == deviceQueryCommand.BatchId);
             }
-            if (deviceQueryCondition.CustomerId is not null)
+            if (deviceQueryCommand.CustomerId is not null)
             {
-                filterExpression = filterExpression.And(device => device.CustomerId == deviceQueryCondition.CustomerId);
+                filterExpression = filterExpression.And(device => device.CustomerId == deviceQueryCommand.CustomerId);
             }
-            if (deviceQueryCondition.AreaId is not null)
+            if (deviceQueryCommand.AreaId is not null)
             {
-                filterExpression = filterExpression.And(device => device.AreaId == deviceQueryCondition.AreaId);
+                filterExpression = filterExpression.And(device => device.AreaId == deviceQueryCommand.AreaId);
             }
-            if (deviceQueryCondition.GroupId is not null)
+            if (deviceQueryCommand.GroupId is not null)
             {
-                filterExpression = filterExpression.And(device => device.GroupId == deviceQueryCondition.GroupId);
+                filterExpression = filterExpression.And(device => device.GroupId == deviceQueryCommand.GroupId);
             }
-            if (deviceQueryCondition.Location is not null)
+            if (deviceQueryCommand.Location is not null)
             {
-                filterExpression = filterExpression.And(device => device.Location.Contains(deviceQueryCondition.Location));
+                filterExpression = filterExpression.And(device => device.Location.Contains(deviceQueryCommand.Location));
             }
-            if (deviceQueryCondition.HardwareVersion is not null)
+            if (deviceQueryCommand.HardwareVersion is not null)
             {
-                filterExpression = filterExpression.And(device => device.HardwareVersion.Contains(deviceQueryCondition.HardwareVersion));
+                filterExpression = filterExpression.And(device => device.HardwareVersion.Contains(deviceQueryCommand.HardwareVersion));
             }
-            if (deviceQueryCondition.IsConnected is not null)
+            if (deviceQueryCommand.IsConnected is not null)
             {
-                filterExpression = filterExpression.And(device => device.IsConnected == deviceQueryCondition.IsConnected);
+                filterExpression = filterExpression.And(device => device.IsConnected == deviceQueryCommand.IsConnected);
             }
-            if (deviceQueryCondition.IsActivated is not null)
+            if (deviceQueryCommand.IsActivated is not null)
             {
-                filterExpression = filterExpression.And(device => device.IsActivated == deviceQueryCondition.IsActivated);
+                filterExpression = filterExpression.And(device => device.IsActivated == deviceQueryCommand.IsActivated);
             }
-            if (deviceQueryCondition.IsLocked is not null)
+            if (deviceQueryCommand.IsLocked is not null)
             {
-                filterExpression = filterExpression.And(device => device.IsLocked == deviceQueryCondition.IsLocked);
+                filterExpression = filterExpression.And(device => device.IsLocked == deviceQueryCommand.IsLocked);
             }
-            return await deviceRepository.GetAsync(filterExpression);
+            var queryOptions = new QueryOptions<Domain.Aggregate.DeviceAggregate.Device>
+            {
+                Filter = filterExpression
+            };
+            var result = await deviceRepository.QueryAsync(queryOptions);
+            return new QueryResult<DataTransferObject.Device>()
+            {
+                TotalCount = result.TotalCount,
+                PageNumber = result.PageNumber,
+                PageSize = result.PageSize,
+                Items = result.Items.Select(mapper.Map<DataTransferObject.Device>)
+            };
         }
 
         public Task<DeviceSnapshot?> GetDeviceSnapshotAsync(string deviceCode)
@@ -147,36 +169,86 @@ namespace Hermes.Service.Device.Api.Application.Query
         }
 
         /// <summary>
-        /// 异步获取软件更新任务
+        /// 异步查询设备日志
         /// </summary>
-        /// <param name="deviceCode">设备代码</param>
-        /// <param name="softwareUpdateTaskId">软件更新任务 Id</param>
+        /// <param name="deviceId">设备 Id</param>
+        /// <param name="deviceLogQueryCommand">设备日志查询命令</param>
         /// <returns></returns>
-        public async Task<SoftwareUpdateTask?> GetSoftwareUpdateTaskAsync(string deviceCode, long softwareUpdateTaskId)
+        public async Task<QueryResult<DataTransferObject.DeviceLog>> QueryDeviceLogsAsync(long deviceId, DeviceLogQueryCommand deviceLogQueryCommand)
         {
-            var device = await deviceRepository.GetDeviceByDeviceCodeAsync(deviceCode);
-            if (device is null)
+            Expression<Func<Domain.Aggregate.DeviceAggregate.DeviceLog, bool>> filterExpression = p => true;
+            if (deviceLogQueryCommand.GroupName is not null)
             {
-                logger.LogError();
-                return null;
+                filterExpression = filterExpression.And(log => log.GroupName.Contains(deviceLogQueryCommand.GroupName));
             }
-            return device.SoftwareUpdateTasks.FirstOrDefault(softwareUpdateTask => softwareUpdateTask.Id == softwareUpdateTaskId);
+            if (deviceLogQueryCommand.StartTime is not null)
+            {
+                var startTimestamp = deviceLogQueryCommand.StartTime is null ? 0 : deviceLogQueryCommand.StartTime.Value.ToUnixTimeMilliseconds();
+                filterExpression = filterExpression.And(log => log.Timestamp >= startTimestamp);
+            }
+            if (deviceLogQueryCommand.EndTime is not null)
+            {
+                var endTimestamp = deviceLogQueryCommand.EndTime is null ? 0 : deviceLogQueryCommand.EndTime.Value.ToUnixTimeMilliseconds();
+                filterExpression = filterExpression.And(log => log.Timestamp <= endTimestamp);
+            }
+            var queryOptions = new QueryOptions<Domain.Aggregate.DeviceAggregate.DeviceLog>()
+            {
+                Filter = filterExpression
+            };
+            var result = await deviceRepository.QueryDeviceLogsAsync(deviceId, queryOptions);
+            return new QueryResult<DataTransferObject.DeviceLog>()
+            {
+                TotalCount = result.TotalCount,
+                PageNumber = result.PageNumber,
+                PageSize = result.PageSize,
+                Items = result.Items.Select(mapper.Map<DataTransferObject.DeviceLog>)
+            };
         }
 
         /// <summary>
-        /// 异步获取软件更新任务枚举
+        /// 异步获取软件更新任务
         /// </summary>
-        /// <param name="deviceCode">设备代码</param>
+        /// <param name="softwareUpdateTaskId">软件更新任务 Id</param>
         /// <returns></returns>
-        public async Task<IEnumerable<SoftwareUpdateTask>> GetSoftwareUpdateTasksAsync(string deviceCode)
+        public async Task<DataTransferObject.SoftwareUpdateTask?> GetSoftwareUpdateTaskAsync(long softwareUpdateTaskId)
         {
-            var device = await deviceRepository.GetDeviceByDeviceCodeAsync(deviceCode);
-            if (device is null)
+            var task = await deviceRepository.GetSoftwareUpdateTaskAsync(softwareUpdateTaskId);
+            return mapper.Map<DataTransferObject.SoftwareUpdateTask>(task);
+        }
+
+        public async Task<QueryResult<DataTransferObject.SoftwareUpdateTask>> GetSoftwareUpdateTasksAsync(SoftwareUpdateTaskQueryCommand softwareUpdateTaskQueryCommand)
+        {
+            Expression<Func<Domain.Aggregate.DeviceAggregate.SoftwareUpdateTask, bool>> filterExpression = p => true;
+            if (softwareUpdateTaskQueryCommand.SoftwareUpdateTaskId is not null)
             {
-                logger.LogError();
-                return Enumerable.Empty<SoftwareUpdateTask>();
+                filterExpression = filterExpression.And(softwareUpdateTask => softwareUpdateTask.Id == softwareUpdateTaskQueryCommand.SoftwareUpdateTaskId);
             }
-            return device.SoftwareUpdateTasks;
+            if (softwareUpdateTaskQueryCommand.SoftwareUpdateTaskName is not null)
+            {
+                filterExpression = filterExpression.And(softwareUpdateTask => softwareUpdateTask.Name.Contains(softwareUpdateTaskQueryCommand.SoftwareUpdateTaskName));
+            }
+            var queryOptions = new QueryOptions<Domain.Aggregate.DeviceAggregate.SoftwareUpdateTask>()
+            {
+                Filter = filterExpression
+            };
+            var result = await deviceRepository.QueryDeviceLogsAsync(deviceId, queryOptions);
+            return new QueryResult<DataTransferObject.DeviceLog>()
+            {
+                TotalCount = result.TotalCount,
+                PageNumber = result.PageNumber,
+                PageSize = result.PageSize,
+                Items = result.Items.Select(mapper.Map<DataTransferObject.SoftwareUpdateTask>)
+            };
+        }
+
+        public Task<QueryResult<DataTransferObject.DeviceControlTask>> GetDeviceControlTasksAsync(long deviceId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<DataTransferObject.DeviceControlTask?> GetDeviceControlTaskAsync(long deviceId, long taskId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

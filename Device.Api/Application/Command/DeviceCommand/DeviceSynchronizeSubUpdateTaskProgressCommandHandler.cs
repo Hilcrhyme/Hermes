@@ -4,9 +4,9 @@ using Hermes.Service.Device.Domain.Aggregate.DeviceAggregate;
 namespace Hermes.Service.Device.Api.Application.Command.DeviceCommand
 {
     /// <summary>
-    /// 设备同步软件更新任务进度命令处理器
+    /// 设备同步更新子任务进度命令处理器
     /// </summary>
-    public class DeviceSynchronizeSoftwareUpdateTaskProgressCommandHandler : CommunicationCommandHandler<DeviceSynchronizeSoftwareUpdateTaskProgressCommand>
+    public class DeviceSynchronizeSubUpdateTaskProgressCommandHandler : CommunicationCommandHandler<DeviceSynchronizeSubUpdateTaskProgressCommand>
     {
         /// <summary>
         /// 设备查询
@@ -21,15 +21,15 @@ namespace Hermes.Service.Device.Api.Application.Command.DeviceCommand
         /// <summary>
         /// 日志器
         /// </summary>
-        private readonly ILogger<DeviceSynchronizeSoftwareUpdateTaskProgressCommandHandler> logger;
+        private readonly ILogger<DeviceSynchronizeSubUpdateTaskProgressCommandHandler> logger;
 
         /// <summary>
-        /// 实例化设备同步软件更新任务进度命令处理器
+        /// 实例化设备同步更新子任务进度命令处理器
         /// </summary>
         /// <param name="deviceQuery">设备查询</param>
         /// <param name="deviceDomainService">设备领域服务</param>
         /// <param name="logger">日志器</param>
-        public DeviceSynchronizeSoftwareUpdateTaskProgressCommandHandler(IDeviceQuery deviceQuery, IDeviceDomainService deviceDomainService, ILogger<DeviceSynchronizeSoftwareUpdateTaskProgressCommandHandler> logger)
+        public DeviceSynchronizeSubUpdateTaskProgressCommandHandler(IDeviceQuery deviceQuery, IDeviceDomainService deviceDomainService, ILogger<DeviceSynchronizeSubUpdateTaskProgressCommandHandler> logger)
         {
             this.deviceQuery = deviceQuery;
             this.deviceDomainService = deviceDomainService;
@@ -37,16 +37,16 @@ namespace Hermes.Service.Device.Api.Application.Command.DeviceCommand
         }
 
         /// <summary>
-        /// 异步处理设备同步软件更新任务进度命令
+        /// 异步处理设备同步更新子任务进度命令
         /// </summary>
-        /// <param name="request">设备同步软件更新任务进度命令</param>
+        /// <param name="request">设备同步更新子任务进度命令</param>
         /// <param name="cancellationToken">取消令牌</param>
         /// <returns></returns>
-        public override async Task Handle(DeviceSynchronizeSoftwareUpdateTaskProgressCommand request, CancellationToken cancellationToken)
+        public override async Task Handle(DeviceSynchronizeSubUpdateTaskProgressCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var task = await deviceQuery.GetSoftwareUpdateTaskAsync(request.DeviceCode, request.Data.SoftwareName, request.Data.SoftwareVersion);
+                var task = await deviceQuery.GetSoftwareUpdateTaskAsync(request.Data.SubUpdateTaskId);
                 if (task is null)
                 {
                     logger.LogError();
@@ -54,7 +54,7 @@ namespace Hermes.Service.Device.Api.Application.Command.DeviceCommand
                 }
                 await deviceDomainService.UpdateSoftwareUpdateTaskProgressAsync(request.DeviceCode, new Domain.Aggregate.DeviceAggregate.SoftwareUpdateTaskProgress()
                 {
-                    SoftwareUpdateTaskId = task.Id,
+                    SoftwareUpdateTaskId = task.Value.Id,
                     Value = request.Data.Value,
                     Message = request.Data.Message,
                     SynchronizedTime = DateTimeOffset.FromUnixTimeMilliseconds(request.Timestamp).DateTime

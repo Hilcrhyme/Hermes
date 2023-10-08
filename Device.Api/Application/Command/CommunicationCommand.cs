@@ -57,12 +57,12 @@ namespace Hermes.Service.Device.Api.Application.Command
         /// <summary>
         /// 平台要求更新软件命令类型
         /// </summary>
-        public static string PlatformRequiresUpdateSoftwareCommandType => "update-software";
+        public static string PlatformRequiresUpdateCommandType => "update";
 
         /// <summary>
-        /// 设备同步软件更新任务进度命令类型
+        /// 设备同步更新子任务进度命令类型
         /// </summary>
-        public static string DeviceSynchronizeSoftwareUpdateTaskProgressCommandType => "software-update-progress";
+        public static string DeviceSynchronizeSubUpdateTaskProgressCommandType => "update-progress";
 
         /// <summary>
         /// 设备同步快照命令类型
