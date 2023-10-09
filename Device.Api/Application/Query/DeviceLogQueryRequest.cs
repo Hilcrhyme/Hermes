@@ -1,9 +1,9 @@
-﻿namespace Hermes.Service.Device.Api.Application.Command
+﻿namespace Hermes.Service.Device.Api.Application.Query
 {
     /// <summary>
-    /// 设备日志查询命令
+    /// 设备日志查询请求
     /// </summary>
-    public record class DeviceLogQueryCommand : QueryCommand
+    public record class DeviceLogQueryRequest : QueryRequest
     {
         /// <summary>
         /// 分组名称

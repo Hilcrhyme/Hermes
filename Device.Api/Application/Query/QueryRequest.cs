@@ -1,9 +1,9 @@
-﻿namespace Hermes.Service.Device.Api.Application.Command
+﻿namespace Hermes.Service.Device.Api.Application.Query
 {
     /// <summary>
-    /// 查询命令
+    /// 查询请求
     /// </summary>
-    public abstract record class QueryCommand
+    public abstract record class QueryRequest
     {
         /// <summary>
         /// 查询的当前页码

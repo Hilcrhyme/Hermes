@@ -1,6 +1,5 @@
 ﻿using Hermes.Common.SeedWork;
-using Hermes.Service.Device.Api.Application.Command;
-using Hermes.Service.Device.Domain.Aggregate.UpdatePlanAggregate;
+using Hermes.Service.Device.Api.Application.DataTransferObject;
 
 namespace Hermes.Service.Device.Api.Application.Query
 {
@@ -10,24 +9,31 @@ namespace Hermes.Service.Device.Api.Application.Query
     public interface IUpdatePlanQuery
     {
         /// <summary>
-        /// 异步获取更新子任务
+        /// 异步获取更新计划
         /// </summary>
-        /// <param name="subUpdateTaskId">更新子任务 Id</param>
+        /// <param name="updatePlanId">更新计划 Id</param>
         /// <returns></returns>
-        Task<UpdateTask?> GetSubUpdateTaskAsync(long subUpdateTaskId);
+        Task<UpdatePlan?> GetUpdatePlanAsync(long updatePlanId);
 
         /// <summary>
-        /// 异步查询更新任务
+        /// 异步查询更新计划
         /// </summary>
-        /// <param name="updateTaskQueryCommand">更新任务查询命令</param>
+        /// <param name="updatePlanQueryRequest">更新计划查询请求</param>
         /// <returns></returns>
-        Task<QueryResult<DataTransferObject.UpdateTask>> QueryUpdateTasksAsync(UpdateTaskQueryCommand updateTaskQueryCommand);
+        Task<QueryResult<UpdatePlan>> QueryUpdatePlansAsync(UpdatePlanQueryRequest updatePlanQueryRequest);
 
         /// <summary>
         /// 异步获取更新任务
         /// </summary>
         /// <param name="updateTaskId">更新任务 Id</param>
         /// <returns></returns>
-        Task<DataTransferObject.UpdateTask?> GetUpdateTaskAsync(long updateTaskId);
+        Task<UpdateTask?> GetUpdateTaskAsync(long updateTaskId);
+
+        /// <summary>
+        /// 异步查询更新任务
+        /// </summary>
+        /// <param name="updateTaskQueryRequest">更新任务查询请求</param>
+        /// <returns></returns>
+        Task<QueryResult<UpdateTask>> QueryUpdateTasksAsync(UpdateTaskQueryRequest updateTaskQueryRequest);
     }
 }

@@ -7,9 +7,9 @@ using MediatR;
 namespace Hermes.Service.Device.Api.Application.Command.PlatformCommand
 {
     /// <summary>
-    /// 平台要求更新软件命令处理器
+    /// 平台要求更新命令处理器
     /// </summary>
-    public class PlatformRequiresUpdateSoftwareCommandHandler : CommunicationCommandHandler<PlatformRequiresUpdateSoftwareCommand>
+    public class PlatformRequiresUpdateCommandHandler : CommunicationCommandHandler<PlatformRequiresUpdateCommand>
     {
         /// <summary>
         /// Mqtt 连接查询
@@ -19,7 +19,7 @@ namespace Hermes.Service.Device.Api.Application.Command.PlatformCommand
         /// <summary>
         /// 日志器
         /// </summary>
-        private readonly ILogger<PlatformRequiresUpdateSoftwareCommandHandler> logger;
+        private readonly ILogger<PlatformRequiresUpdateCommandHandler> logger;
 
         /// <summary>
         /// 消息中介器
@@ -27,12 +27,12 @@ namespace Hermes.Service.Device.Api.Application.Command.PlatformCommand
         private readonly IMediator mediator;
 
         /// <summary>
-        /// 实例化平台要求更新软件命令处理器
+        /// 实例化平台要求更新命令处理器
         /// </summary>
         /// <param name="mqttConnectionQuery">Mqtt 连接查询</param>
         /// <param name="logger">日志器</param>
         /// <param name="mediator">消息中介器</param>
-        public PlatformRequiresUpdateSoftwareCommandHandler(IMqttConnectionQuery mqttConnectionQuery, ILogger<PlatformRequiresUpdateSoftwareCommandHandler> logger, IMediator mediator)
+        public PlatformRequiresUpdateCommandHandler(IMqttConnectionQuery mqttConnectionQuery, ILogger<PlatformRequiresUpdateCommandHandler> logger, IMediator mediator)
         {
             this.mqttConnectionQuery = mqttConnectionQuery;
             this.logger = logger;
@@ -40,12 +40,12 @@ namespace Hermes.Service.Device.Api.Application.Command.PlatformCommand
         }
 
         /// <summary>
-        /// 异步处理平台要求更新软件命令
+        /// 异步处理平台要求更新命令
         /// </summary>
-        /// <param name="request">平台要求更新软件命令</param>
+        /// <param name="request">平台要求更新命令</param>
         /// <param name="cancellationToken">取消令牌</param>
         /// <returns></returns>
-        public override async Task Handle(PlatformRequiresUpdateSoftwareCommand request, CancellationToken cancellationToken)
+        public override async Task Handle(PlatformRequiresUpdateCommand request, CancellationToken cancellationToken)
         {
             try
             {

@@ -1,5 +1,4 @@
 ﻿using Hermes.Common.SeedWork;
-using Hermes.Service.Device.Api.Application.Command;
 using Hermes.Service.Device.Api.Application.DataTransferObject;
 
 namespace Hermes.Service.Device.Api.Application.Query
@@ -14,6 +13,6 @@ namespace Hermes.Service.Device.Api.Application.Query
         /// </summary>
         /// <param name="updatePackageQueryCommand">更新包查询命令</param>
         /// <returns></returns>
-        Task<QueryResult<UpdatePackage>> QueryUpdatePackagesAsync(UpdatePackageQueryCommand updatePackageQueryCommand);
+        Task<QueryResult<UpdatePackage>> QueryUpdatePackagesAsync(UpdatePackageQueryRequest updatePackageQueryCommand);
     }
 }

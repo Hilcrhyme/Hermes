@@ -12,7 +12,7 @@ namespace Hermes.Service.Device.Api.Controller
     /// <summary>
     /// 更新包控制器
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/update-packages")]
     [ApiController]
     public class UpdatePackagesController : ControllerBase
     {
@@ -52,14 +52,14 @@ namespace Hermes.Service.Device.Api.Controller
         }
 
         /// <summary>
-        /// 异步查询更新包枚举
+        /// 异步查询更新包
         /// </summary>
-        /// <param name="updatePackageQueryCommand">更新包查询命令</param>
+        /// <param name="updatePackageQueryRequest">更新包查询请求</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<QueryResult<UpdatePackage>> QueryUpdatePackagesAsync([FromForm] UpdatePackageQueryCommand updatePackageQueryCommand)
+        public async Task<QueryResult<UpdatePackage>> QueryUpdatePackagesAsync([FromForm] UpdatePackageQueryRequest updatePackageQueryRequest)
         {
-            return await updatePackageQuery.QueryUpdatePackagesAsync(updatePackageQueryCommand);
+            return await updatePackageQuery.QueryUpdatePackagesAsync(updatePackageQueryRequest);
         }
 
         /// <summary>

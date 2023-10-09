@@ -10,7 +10,7 @@ namespace Hermes.Service.Device.Api.Controller
     /// <summary>
     /// Emqx 事件控制器
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/emqx-events")]
     [ApiController]
     public class EmqxEventsController : ControllerBase
     {
@@ -33,8 +33,8 @@ namespace Hermes.Service.Device.Api.Controller
         /// </summary>
         /// <param name="clientConnectedEvent">Emqx 客户端已连接事件</param>
         /// <returns></returns>
-        [HttpPost("client-connected-event")]
-        public async Task<IActionResult> SaveEmqxClientConnectedEventAsync([FromBody] EmqxClientConnectedEvent clientConnectedEvent)
+        [HttpPost("client-connected-events")]
+        public async Task<ActionResult> SaveEmqxClientConnectedEventAsync([FromBody] EmqxClientConnectedEvent clientConnectedEvent)
         {
             await mediator.Send(new CreateClientConnectedMqttEventCommand(clientConnectedEvent));
             return Ok();
@@ -45,8 +45,8 @@ namespace Hermes.Service.Device.Api.Controller
         /// </summary>
         /// <param name="clientDisconnectedEvent">Emqx 客户端连接已断开事件</param>
         /// <returns></returns>
-        [HttpPost("client-disconnected-event")]
-        public async Task<IActionResult> SaveEmqxClientDisconnectedEventAsync([FromBody] EmqxClientDisconnectedEvent clientDisconnectedEvent)
+        [HttpPost("client-disconnected-events")]
+        public async Task<ActionResult> SaveEmqxClientDisconnectedEventAsync([FromBody] EmqxClientDisconnectedEvent clientDisconnectedEvent)
         {
             await mediator.Send(new CreateClientDisconnectedMqttEventCommand(clientDisconnectedEvent));
             return Ok();
@@ -57,8 +57,8 @@ namespace Hermes.Service.Device.Api.Controller
         /// </summary>
         /// <param name="messagePublishedEvent">Emqx 消息已发布事件</param>
         /// <returns></returns>
-        [HttpPost("message-published-event")]
-        public async Task<IActionResult> SaveEmqxMessagePublishedEventAsync([FromBody] EmqxMessagePublishedEvent messagePublishedEvent)
+        [HttpPost("message-published-events")]
+        public async Task<ActionResult> SaveEmqxMessagePublishedEventAsync([FromBody] EmqxMessagePublishedEvent messagePublishedEvent)
         {
             await mediator.Send(new CreateMessagePublishedMqttEventCommand(messagePublishedEvent));
             return Ok();

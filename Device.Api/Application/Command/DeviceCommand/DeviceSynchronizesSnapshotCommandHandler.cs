@@ -1,6 +1,7 @@
 ﻿using Hermes.Common.IdentityGenerator;
 using Hermes.Service.Device.Api.Application.Command.PlatformCommand;
 using Hermes.Service.Device.Api.Application.Query;
+using Hermes.Service.Device.Domain.Aggregate.UpdatePlanAggregate;
 
 using MediatR;
 
@@ -15,6 +16,11 @@ namespace Hermes.Service.Device.Api.Application.Command.DeviceCommand
         /// 设备查询
         /// </summary>
         private readonly IDeviceQuery deviceQuery;
+
+        /// <summary>
+        /// 更新计划查询
+        /// </summary>
+        private readonly IUpdatePlanQuery updatePlanQuery;
 
         /// <summary>
         /// Id 生成器
@@ -35,12 +41,14 @@ namespace Hermes.Service.Device.Api.Application.Command.DeviceCommand
         /// 实例化设备同步快照命令处理器
         /// </summary>
         /// <param name="deviceQuery">设备查询</param>
+        /// <param name="updatePlanQuery">更新计划查询</param>
         /// <param name="identityGenerator">Id 生成器</param>
         /// <param name="logger">日志器</param>
         /// <param name="mediator">消息中介器</param>
-        public DeviceSynchronizesSnapshotCommandHandler(IDeviceQuery deviceQuery, IIdentityGenerator<long> identityGenerator, ILogger<DeviceSynchronizesSnapshotCommandHandler> logger, IMediator mediator)
+        public DeviceSynchronizesSnapshotCommandHandler(IDeviceQuery deviceQuery, IUpdatePlanQuery updatePlanQuery, IIdentityGenerator<long> identityGenerator, ILogger<DeviceSynchronizesSnapshotCommandHandler> logger, IMediator mediator)
         {
             this.deviceQuery = deviceQuery;
+            this.updatePlanQuery = updatePlanQuery;
             this.identityGenerator = identityGenerator;
             this.logger = logger;
             this.mediator = mediator;
@@ -62,29 +70,34 @@ namespace Hermes.Service.Device.Api.Application.Command.DeviceCommand
                     logger.LogError();
                     return;
                 }
-                var updateTasks = await deviceQuery.GetSoftwareUpdateTasksAsync(request.DeviceCode);
+                var result = await updatePlanQuery.QueryUpdateTasksAsync(new UpdateTaskQueryRequest()
+                {
+                    DeviceCode = request.DeviceCode,
+                    UpdateTargetType = UpdateTargetType.Software,
+                    UpdateTaskState = UpdateTaskState.Pushing,
+                });
                 foreach (var item in request.Data.Softwares)
                 {
-                    var task = updateTasks.FirstOrDefault(updateTask => updateTask.Name == item.Name && updateTask.SupportedSoftwareVersions.Contains(item.Version));
-                    if (task is null)
+                    var tasks = result.Items.Where(updateTask => updateTask.TargetName == item.Name && updateTask.SupportedSoftwareVersions.Contains(item.Version));
+                    if (!tasks.Any())
                     {
                         continue;
                     }
-                    await mediator.Publish(new PlatformRequiresUpdateSoftwareCommand(request.DeviceCode, new SoftwareUpdateTask()
+                    await mediator.Publish(new PlatformRequiresUpdateCommand(request.DeviceCode, new PlatformCommand.UpdateTask()
                     {
-                        TaskId = await identityGenerator.GetNextIdAsync(),
-                        SoftwareName = item.Name,
-                        SoftwareVersion = task.UpdatedVersion,
-                        PackageName = task.PackageName,
-                        PackageSize = task.PackageSize,
-                        PackageMD5 = task.PackageMD5,
-                        PackageUrl = task.PackageUrl
+                        Id = await identityGenerator.GetNextIdAsync(),
+                        TargetName = item.Name,
+                        Version = tasks.First().UpdatedVersion,
+                        PackageName = tasks.First().PackageName,
+                        PackageSize = tasks.First().PackageSize,
+                        PackageMD5 = tasks.First().PackageMD5,
+                        PackageUrl = tasks.First().PackageUrl
                     }), cancellationToken);
                     // 每次只更新一个软件
                     break;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 logger.LogCritical();
             }

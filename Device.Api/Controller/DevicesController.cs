@@ -12,7 +12,7 @@ namespace Hermes.Service.Device.Api.Controller
     /// <summary>
     /// 设备管理器
     /// </summary>
-    [Route("api/query/device")]
+    [Route("api/devices")]
     [ApiController]
     public class DevicesController : ControllerBase
     {
@@ -47,39 +47,27 @@ namespace Hermes.Service.Device.Api.Controller
         /// <summary>
         /// 异步查询设备
         /// </summary>
-        /// <param name="deviceQueryCommand">设备查询命令</param>
+        /// <param name="deviceQueryRequest">设备查询请求</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<QueryResult<Application.DataTransferObject.Device>>> QueryDevicesAsync([FromQuery] DeviceQueryCommand deviceQueryCommand)
+        public async Task<ActionResult<QueryResult<Application.DataTransferObject.Device>>> QueryDevicesAsync([FromQuery] DeviceQueryRequest deviceQueryRequest)
         {
-            return await deviceQuery.QueryDevicesAsync(deviceQueryCommand);
+            return await deviceQuery.QueryDevicesAsync(deviceQueryRequest);
         }
 
         /// <summary>
-        /// 异步获取设备日志枚举
+        /// 异步查询设备日志
         /// </summary>
         /// <param name="deviceId">设备 Id</param>
-        /// <param name="deviceLogQueryCommand">设备日志查询命令</param>
+        /// <param name="deviceLogQueryRequest">设备日志查询请求</param>
         /// <returns></returns>
         [HttpGet("{deviceId:long}/logs")]
-        public async Task<ActionResult<QueryResult<DeviceLog>>> GetDeviceLogsAsync([FromRoute] long deviceId, [FromQuery] DeviceLogQueryCommand deviceLogQueryCommand)
+        public async Task<ActionResult<QueryResult<DeviceLog>>> GetDeviceLogsAsync([FromRoute] long deviceId, [FromQuery] DeviceLogQueryRequest deviceLogQueryRequest)
         {
-            return await deviceQuery.QueryDeviceLogsAsync(deviceId, deviceLogQueryCommand);
+            return await deviceQuery.QueryDeviceLogsAsync(deviceId, deviceLogQueryRequest);
         }
 
-        /// <summary>
-        /// 异步查询更新任务
-        /// </summary>
-        /// <param name="deviceId">设备 Id</param>
-        /// <returns></returns>
-        [HttpGet("{deviceId:long}/update-tasks")]
-        public async Task<ActionResult<QueryResult<UpdateTask>>> QueryUpdateTasksAsync([FromRoute] long deviceId)
-        {
-            return await updatePlanQuery.QueryUpdateTasksAsync(new UpdateTaskQueryCommand()
-            {
-                DeviceId = deviceId
-            });
-        }
+        
 
         /// <summary>
         /// 异步创建设备控制任务

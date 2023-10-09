@@ -4,11 +4,8 @@ using AutoMapper;
 
 using Hermes.Common.Extension;
 using Hermes.Common.SeedWork;
-using Hermes.Service.Device.Api.Application.Command;
 using Hermes.Service.Device.Api.Application.Command.DeviceCommand;
-using Hermes.Service.Device.Api.Application.DataTransferObject;
 using Hermes.Service.Device.Domain.Aggregate.DeviceAggregate;
-using Hermes.Service.Device.Domain.Aggregate.UpdatePlanAggregate;
 
 namespace Hermes.Service.Device.Api.Application.Query
 {
@@ -79,7 +76,7 @@ namespace Hermes.Service.Device.Api.Application.Query
         /// </summary>
         /// <param name="deviceQueryCommand">设备查询命令</param>
         /// <returns></returns>
-        public async Task<QueryResult<DataTransferObject.Device>> QueryDevicesAsync(DeviceQueryCommand deviceQueryCommand)
+        public async Task<QueryResult<DataTransferObject.Device>> QueryDevicesAsync(DeviceQueryRequest deviceQueryCommand)
         {
             Expression<Func<Domain.Aggregate.DeviceAggregate.Device, bool>> filterExpression = p => true;
             if (deviceQueryCommand.Id is not null)
@@ -175,7 +172,7 @@ namespace Hermes.Service.Device.Api.Application.Query
         /// <param name="deviceId">设备 Id</param>
         /// <param name="deviceLogQueryCommand">设备日志查询命令</param>
         /// <returns></returns>
-        public async Task<QueryResult<DataTransferObject.DeviceLog>> QueryDeviceLogsAsync(long deviceId, DeviceLogQueryCommand deviceLogQueryCommand)
+        public async Task<QueryResult<DataTransferObject.DeviceLog>> QueryDeviceLogsAsync(long deviceId, DeviceLogQueryRequest deviceLogQueryCommand)
         {
             Expression<Func<Domain.Aggregate.DeviceAggregate.DeviceLog, bool>> filterExpression = p => true;
             if (deviceLogQueryCommand.GroupName is not null)
@@ -204,17 +201,6 @@ namespace Hermes.Service.Device.Api.Application.Query
                 PageSize = result.PageSize,
                 Items = result.Items.Select(mapper.Map<DataTransferObject.DeviceLog>)
             };
-        }
-
-        /// <summary>
-        /// 异步获取软件更新任务
-        /// </summary>
-        /// <param name="softwareUpdateTaskId">软件更新任务 Id</param>
-        /// <returns></returns>
-        public async Task<DataTransferObject.UpdateTask?> GetSoftwareUpdateTaskAsync(long softwareUpdateTaskId)
-        {
-            var task = await deviceRepository.GetSoftwareUpdateTaskAsync(softwareUpdateTaskId);
-            return mapper.Map<DataTransferObject.UpdateTask>(task);
         }
 
         public Task<QueryResult<DataTransferObject.DeviceControlTask>> GetDeviceControlTasksAsync(long deviceId)

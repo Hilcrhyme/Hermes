@@ -1,4 +1,5 @@
 ﻿using Hermes.Common.SeedWork;
+using Hermes.Service.Device.Domain.Aggregate.ControlPlanAggregate;
 using Hermes.Service.Device.Domain.Aggregate.UpdatePlanAggregate;
 
 namespace Hermes.Service.Device.Domain.Aggregate.DeviceAggregate
@@ -74,9 +75,9 @@ namespace Hermes.Service.Device.Domain.Aggregate.DeviceAggregate
         public string Location { get; set; } = string.Empty;
 
         /// <summary>
-        /// 软件集合
+        /// 软件枚举
         /// </summary>
-        public virtual ICollection<Software> Softwares { get; set; } = Array.Empty<Software>();
+        public virtual IEnumerable<Software> Softwares { get; set; } = Enumerable.Empty<Software>();
 
         /// <summary>
         /// 硬件版本
@@ -84,29 +85,29 @@ namespace Hermes.Service.Device.Domain.Aggregate.DeviceAggregate
         public string HardwareVersion { get; set; } = string.Empty;
 
         /// <summary>
-        /// 更新任务枚举
-        /// </summary>
-        public IEnumerable<long> UpdateTasks { get; set; } = Enumerable.Empty<long>();
-
-        /// <summary>
         /// 数据字典
         /// </summary>
         public virtual IDictionary<string, string> DataDictionary { get; set; } = new Dictionary<string, string>();
 
         /// <summary>
-        /// 连接集合
+        /// 连接枚举
         /// </summary>
-        public virtual ICollection<Connection> Connections { get; set; } = Array.Empty<Connection>();
+        public virtual IEnumerable<Connection> Connections { get; set; } = Enumerable.Empty<Connection>();
 
         /// <summary>
-        /// 设备日志集合
+        /// 设备日志枚举
         /// </summary>
-        public virtual ICollection<DeviceLog> Logs { get; set; } = Array.Empty<DeviceLog>();
+        public virtual IEnumerable<DeviceLog> Logs { get; set; } = Enumerable.Empty<DeviceLog>();
+
+        /// <summary>
+        /// 更新任务枚举
+        /// </summary>
+        public IEnumerable<UpdateTask> UpdateTasks { get; set; } = Enumerable.Empty<UpdateTask>();
 
         /// <summary>
         /// 设备任务集合
         /// </summary>
-        public virtual ICollection<DeviceControlTask> ControlTasks { get; set; } = Array.Empty<DeviceControlTask>();
+        public virtual IEnumerable<ControlTask> ControlTasks { get; set; } = Enumerable.Empty<ControlTask>();
 
         /// <summary>
         /// 设备是否已连接至平台

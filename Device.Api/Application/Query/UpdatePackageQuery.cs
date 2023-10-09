@@ -1,5 +1,4 @@
 ﻿using Hermes.Common.SeedWork;
-using Hermes.Service.Device.Api.Application.Command;
 using Hermes.Service.Device.Api.Application.DataTransferObject;
 
 namespace Hermes.Service.Device.Api.Application.Query
@@ -15,7 +14,7 @@ namespace Hermes.Service.Device.Api.Application.Query
         /// <param name="updatePackageQueryCommand">更新包查询命令</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public Task<QueryResult<UpdatePackage>> QueryUpdatePackagesAsync(UpdatePackageQueryCommand updatePackageQueryCommand)
+        public Task<QueryResult<UpdatePackage>> QueryUpdatePackagesAsync(UpdatePackageQueryRequest updatePackageQueryCommand)
         {
             throw new NotImplementedException();
         }

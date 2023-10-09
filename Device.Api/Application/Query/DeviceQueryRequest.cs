@@ -1,11 +1,11 @@
 ﻿using Hermes.Service.Device.Domain.Aggregate.DeviceAggregate;
 
-namespace Hermes.Service.Device.Api.Application.Command
+namespace Hermes.Service.Device.Api.Application.Query
 {
     /// <summary>
-    /// 设备查询命令
+    /// 设备查询请求
     /// </summary>
-    public record class DeviceQueryCommand : QueryCommand
+    public record class DeviceQueryRequest : QueryRequest
     {
         /// <summary>
         /// 设备 Id

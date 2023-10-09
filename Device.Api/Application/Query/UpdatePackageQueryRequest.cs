@@ -1,9 +1,9 @@
-﻿namespace Hermes.Service.Device.Api.Application.Command
+﻿namespace Hermes.Service.Device.Api.Application.Query
 {
     /// <summary>
-    /// 更新包查询命令
+    /// 更新包查询请求
     /// </summary>
-    public record class UpdatePackageQueryCommand : QueryCommand
+    public record class UpdatePackageQueryRequest : QueryRequest
     {
         /// <summary>
         /// 更新包 Id

@@ -6,6 +6,21 @@
     public readonly record struct DeviceLog
     {
         /// <summary>
+        /// 设备 Id
+        /// </summary>
+        public long DeviceId { get; init; }
+
+        /// <summary>
+        /// 设备代码
+        /// </summary>
+        public string DeviceCode { get; init; }
+
+        /// <summary>
+        /// 设备名称
+        /// </summary>
+        public string DeviceName { get; init; }
+
+        /// <summary>
         /// 分组名称
         /// </summary>
         public string GroupName { get; init; }
