@@ -4,8 +4,8 @@ using AutoMapper;
 
 using Hermes.Common.Extension;
 using Hermes.Common.SeedWork;
-using Hermes.Service.Device.Api.Application.Command.DeviceCommand;
-using Hermes.Service.Device.Domain.Aggregate.DeviceAggregate;
+using Hermes.Service.Device.Api.Application.Commands.DeviceCommand;
+using Hermes.Service.Device.Domain.Aggregates.DeviceAggregate;
 
 namespace Hermes.Service.Device.Api.Application.Query
 {
@@ -78,7 +78,7 @@ namespace Hermes.Service.Device.Api.Application.Query
         /// <returns></returns>
         public async Task<QueryResult<DataTransferObject.Device>> QueryDevicesAsync(DeviceQueryRequest deviceQueryCommand)
         {
-            Expression<Func<Domain.Aggregate.DeviceAggregate.Device, bool>> filterExpression = p => true;
+            Expression<Func<Domain.Aggregates.DeviceAggregate.Device, bool>> filterExpression = p => true;
             if (deviceQueryCommand.Id is not null)
             {
                 filterExpression = filterExpression.And(device => device.Id == deviceQueryCommand.Id);
@@ -147,7 +147,7 @@ namespace Hermes.Service.Device.Api.Application.Query
             {
                 filterExpression = filterExpression.And(device => device.IsLocked == deviceQueryCommand.IsLocked);
             }
-            var queryOptions = new QueryOptions<Domain.Aggregate.DeviceAggregate.Device>
+            var queryOptions = new QueryOptions<Domain.Aggregates.DeviceAggregate.Device>
             {
                 Filter = filterExpression
             };
@@ -174,7 +174,7 @@ namespace Hermes.Service.Device.Api.Application.Query
         /// <returns></returns>
         public async Task<QueryResult<DataTransferObject.DeviceLog>> QueryDeviceLogsAsync(long deviceId, DeviceLogQueryRequest deviceLogQueryCommand)
         {
-            Expression<Func<Domain.Aggregate.DeviceAggregate.DeviceLog, bool>> filterExpression = p => true;
+            Expression<Func<Domain.Aggregates.DeviceAggregate.DeviceLog, bool>> filterExpression = p => true;
             if (deviceLogQueryCommand.GroupName is not null)
             {
                 filterExpression = filterExpression.And(log => log.GroupName.Contains(deviceLogQueryCommand.GroupName));
@@ -189,7 +189,7 @@ namespace Hermes.Service.Device.Api.Application.Query
                 var endTimestamp = deviceLogQueryCommand.EndTime is null ? 0 : deviceLogQueryCommand.EndTime.Value.ToUnixTimeMilliseconds();
                 filterExpression = filterExpression.And(log => log.Timestamp <= endTimestamp);
             }
-            var queryOptions = new QueryOptions<Domain.Aggregate.DeviceAggregate.DeviceLog>()
+            var queryOptions = new QueryOptions<Domain.Aggregates.DeviceAggregate.DeviceLog>()
             {
                 Filter = filterExpression
             };
@@ -201,16 +201,6 @@ namespace Hermes.Service.Device.Api.Application.Query
                 PageSize = result.PageSize,
                 Items = result.Items.Select(mapper.Map<DataTransferObject.DeviceLog>)
             };
-        }
-
-        public Task<QueryResult<DataTransferObject.DeviceControlTask>> GetDeviceControlTasksAsync(long deviceId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<DataTransferObject.DeviceControlTask?> GetDeviceControlTaskAsync(long deviceId, long taskId)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -18,9 +18,9 @@ namespace Hermes.Service.Device.Api.Application.Query
         /// <summary>
         /// 异步查询控制计划
         /// </summary>
-        /// <param name="updatePlanQueryRequest">控制计划查询请求</param>
+        /// <param name="controlPlanQueryRequest">控制计划查询请求</param>
         /// <returns></returns>
-        Task<QueryResult<ControlPlan>> QueryControlPlansAsync(UpdatePlanQueryRequest updatePlanQueryRequest);
+        Task<QueryResult<ControlPlan>> QueryControlPlansAsync(ControlPlanQueryRequest controlPlanQueryRequest);
 
         /// <summary>
         /// 异步获取控制任务
@@ -32,8 +32,8 @@ namespace Hermes.Service.Device.Api.Application.Query
         /// <summary>
         /// 异步查询控制任务
         /// </summary>
-        /// <param name="updateTaskQueryRequest">控制任务查询请求</param>
+        /// <param name="controlTaskQueryRequest">控制任务查询请求</param>
         /// <returns></returns>
-        Task<QueryResult<ControlTask>> QueryControlTasksAsync(UpdateTaskQueryRequest updateTaskQueryRequest);
+        Task<QueryResult<ControlTask>> QueryControlTasksAsync(ControlTaskQueryRequest controlTaskQueryRequest);
     }
 }

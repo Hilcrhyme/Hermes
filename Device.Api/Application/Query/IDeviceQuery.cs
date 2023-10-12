@@ -1,6 +1,5 @@
 ﻿using Hermes.Common.SeedWork;
-using Hermes.Service.Device.Api.Application.Command.DeviceCommand;
-using Hermes.Service.Device.Api.Application.DataTransferObject;
+using Hermes.Service.Device.Api.Application.Commands.DeviceCommand;
 
 namespace Hermes.Service.Device.Api.Application.Query
 {
@@ -31,21 +30,6 @@ namespace Hermes.Service.Device.Api.Application.Query
         /// <param name="deviceLogQueryCommand">设备日志查询命令</param>
         /// <returns></returns>
         Task<QueryResult<DataTransferObject.DeviceLog>> QueryDeviceLogsAsync(long deviceId, DeviceLogQueryRequest deviceLogQueryCommand);
-
-        /// <summary>
-        /// 异步查询设备控制任务
-        /// </summary>
-        /// <param name="deviceId">设备 Id</param>
-        /// <returns></returns>
-        Task<QueryResult<DeviceControlTask>> GetDeviceControlTasksAsync(long deviceId);
-
-        /// <summary>
-        /// 异步获取设备控制任务
-        /// </summary>
-        /// <param name="deviceId">设备 Id</param>
-        /// <param name="taskId">设备控制任务 Id</param>
-        /// <returns></returns>
-        Task<DeviceControlTask?> GetDeviceControlTaskAsync(long deviceId, long taskId);
 
         /// <summary>
         /// 异步获取设备快照

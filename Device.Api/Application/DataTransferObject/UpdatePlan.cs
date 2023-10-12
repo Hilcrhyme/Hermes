@@ -1,4 +1,4 @@
-﻿using Hermes.Service.Device.Domain.Aggregate.UpdatePlanAggregate;
+﻿using Hermes.Service.Device.Domain.Aggregates.UpdatePackageAggregate;
 
 namespace Hermes.Service.Device.Api.Application.DataTransferObject
 {
@@ -18,14 +18,19 @@ namespace Hermes.Service.Device.Api.Application.DataTransferObject
         public string UpdatePlanName { get; init; }
 
         /// <summary>
+        /// 更新包 Id
+        /// </summary>
+        public long UpdatePackageId { get; init; }
+
+        /// <summary>
         /// 更新目标名称
         /// </summary>
         public string TargetName { get; init; }
 
         /// <summary>
-        /// 更新目标类型
+        /// 更新包类型
         /// </summary>
-        public UpdateTargetType TargetType { get; init; }
+        public UpdatePackageType UpdatePackageType { get; init; }
 
         /// <summary>
         /// 更新后的版本
@@ -36,11 +41,6 @@ namespace Hermes.Service.Device.Api.Application.DataTransferObject
         /// 支持更新的版本枚举
         /// </summary>
         public IEnumerable<string> SupportedVersions { get; init; }
-
-        /// <summary>
-        /// 更新包 Id
-        /// </summary>
-        public long UpdatePackageId { get; init; }
 
         /// <summary>
         /// 更新任务枚举

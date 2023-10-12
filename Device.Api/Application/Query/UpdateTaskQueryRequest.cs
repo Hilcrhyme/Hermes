@@ -1,4 +1,5 @@
-﻿using Hermes.Service.Device.Domain.Aggregate.UpdatePlanAggregate;
+﻿using Hermes.Service.Device.Domain.Aggregates.UpdatePackageAggregate;
+using Hermes.Service.Device.Domain.Aggregates.UpdatePlanAggregate;
 
 namespace Hermes.Service.Device.Api.Application.Query
 {
@@ -23,9 +24,9 @@ namespace Hermes.Service.Device.Api.Application.Query
         public long? UpdatePlanId { get; init; } = default;
 
         /// <summary>
-        /// 更新目标类型
+        /// 更新包类型
         /// </summary>
-        public UpdateTargetType? UpdateTargetType { get; init; } = default;
+        public UpdatePackageType? UpdatePackageType { get; init; } = default;
 
         /// <summary>
         /// 更新任务状态

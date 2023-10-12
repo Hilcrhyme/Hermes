@@ -10,6 +10,6 @@ namespace Hermes.Service.Device.Infrastructure.Repository
         /// <summary>
         /// 设备数据集
         /// </summary>
-        public DbSet<Domain.Aggregate.DeviceAggregate.Device> Devices { get; set; }
+        public DbSet<Domain.Aggregates.DeviceAggregate.Device> Devices { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 
 using Hermes.Common.SeedWork;
-using Hermes.Service.Device.Domain.Aggregate.UpdatePlanAggregate;
+using Hermes.Service.Device.Domain.Aggregates.UpdatePlanAggregate;
 using Hermes.Common.Extension;
 
 namespace Hermes.Service.Device.Api.Application.Query

@@ -1,4 +1,4 @@
-﻿using Hermes.Service.Device.Domain.Aggregate.DeviceAggregate;
+﻿using Hermes.Service.Device.Domain.Aggregates.DeviceAggregate;
 
 namespace Hermes.Service.Device.Api.Application.Query
 {

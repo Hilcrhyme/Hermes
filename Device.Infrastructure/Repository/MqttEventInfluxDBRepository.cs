@@ -1,4 +1,4 @@
-﻿using Hermes.Service.Device.Domain.Aggregate.MqttEventAggregate;
+﻿using Hermes.Service.Device.Domain.Aggregates.MqttEventAggregate;
 
 using InfluxDB.Client;
 using InfluxDB.Client.Api.Domain;

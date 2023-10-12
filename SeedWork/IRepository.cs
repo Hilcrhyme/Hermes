@@ -7,6 +7,11 @@
     public interface IRepository<T> where T : IAggregateRoot
     {
         /// <summary>
+        /// 工作单元
+        /// </summary>
+        IUnitOfWork UnitOfWork { get; }
+
+        /// <summary>
         /// 异步新增实体
         /// </summary>
         /// <param name="entity">实体</param>

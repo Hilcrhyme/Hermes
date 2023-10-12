@@ -18,6 +18,11 @@ namespace Hermes.Common.SeedWork
         public virtual long Id { get; protected init; } = default;
 
         /// <summary>
+        /// 实体的创建时间
+        /// </summary>
+        public DateTime CreatedTime { get; protected init; } = default;
+
+        /// <summary>
         /// 领域事件列表
         /// </summary>
         private readonly List<INotification> _domainEvents = new();

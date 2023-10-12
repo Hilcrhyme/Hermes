@@ -1,4 +1,4 @@
-﻿using Hermes.Service.Device.Domain.Aggregate.ControlPlanAggregate;
+﻿using Hermes.Service.Device.Domain.Aggregates.ControlPlanAggregate;
 
 namespace Hermes.Service.Device.Api.Application.DataTransferObject
 {
@@ -21,11 +21,6 @@ namespace Hermes.Service.Device.Api.Application.DataTransferObject
         /// 控制任务状态
         /// </summary>
         public ControlTaskState State { get; init; }
-
-        /// <summary>
-        /// 控制任务错误
-        /// </summary>
-        public ControlTaskError? Error { get; init; }
 
         /// <summary>
         /// 设备响应
